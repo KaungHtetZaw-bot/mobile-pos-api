@@ -22,10 +22,10 @@ model User {
   name      String
   username  String   @unique
   email     String   @unique
-  phone     String
+  phone     String?
   avatar    String?
-  password  String?
-  status    String
+  password  String
+  status    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   orders    Order[]

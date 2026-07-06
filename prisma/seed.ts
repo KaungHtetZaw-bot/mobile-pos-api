@@ -1,8 +1,8 @@
-import { seedRoles } from "./seeders/role.seeder";
-import { seedUsers } from "./seeders/user.seeder";
-import { seedSettings } from "./seeders/setting.seeder";
-import { seedModels } from "./seeders/mobile-model.seeder";
-import { seedBrands } from "./seeders/mobile-brand.seeder";
+import { seedRoles } from "./seeder/role.seeder";
+import { seedUsers } from "./seeder/user.seeder";
+import { seedSettings } from "./seeder/setting.seeder";
+import { seedModels } from "./seeder/mobile-model.seeder";
+import { seedBrands } from "./seeder/mobile-brand.seeder";
 import prisma from "../src/prisma/client";
 
 async function main() {
