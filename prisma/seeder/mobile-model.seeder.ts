@@ -1,7 +1,7 @@
 import prisma from "../../src/prisma/client";
 
 export const seedModels = async () => {
-    const apple = await prisma.mobileBrand.findUnique({ where: { name: "Apple" } });
+  const apple = await prisma.mobileBrand.findUnique({ where: { name: "Apple" } });
   const samsung = await prisma.mobileBrand.findUnique({ where: { name: "Samsung" } });
   const xiaomi = await prisma.mobileBrand.findUnique({ where: { name: "Xiaomi" } });
   const oppo = await prisma.mobileBrand.findUnique({ where: { name: "Oppo" } });

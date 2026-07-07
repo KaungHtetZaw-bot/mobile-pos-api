@@ -1,13 +1,10 @@
 import express from "express";
-import { authenticateToken } from "./middleware/auth.middleware";
-import brandRoutes from "./routes/brand.routes";
-import authRoutes from "./routes/auth.routes"
+import v1Router from "./routes";
 
 const app = express();
 
 app.use(express.json());
 
-app.use("/v1/api/brands",authenticateToken, brandRoutes);
-app.use("/v1/api", authRoutes);
+app.use("/v1/api/",v1Router);
 
 export default app;

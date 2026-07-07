@@ -72,22 +72,32 @@ model MobileModel {
   orderItems    OrderItem[]
 }
 
-model AccessoryCategory {
+model RelatedItemCategory {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        String   @unique
   description String?
   status      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
 
-model OtherProductCategory {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  status      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  items       RelatedItem[]
+}
+model RelatedItem {
+  id            Int               @id @default(autoincrement())
+  name          String
+  brand         String
+  purchasePrice Float
+  sellingPrice  Float
+  stockQty      Int               @default(0)
+  status        String            @default("Active")
+  description   String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  categoryId    Int
+  category      RelatedItemCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  orderItems      OrderItem[]
 }
 
 model Order {
@@ -108,9 +118,11 @@ model OrderItem {
   id            Int          @id @default(autoincrement())
   orderId       Int
   mobileModelId Int?
+  relatedItemId Int?
   quantity      Int
   sellingPrice  Float
   total         Float
   mobileModel   MobileModel? @relation(fields: [mobileModelId], references: [id])
+  relatedItem   RelatedItem? @relation(fields: [relatedItemId], references: [id])
   order         Order        @relation(fields: [orderId], references: [id])
 }

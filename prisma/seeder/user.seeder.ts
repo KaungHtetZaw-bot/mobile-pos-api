@@ -7,15 +7,19 @@ export async function seedUsers() {
   const adminRole = await prisma.role.findUnique({
     where: { name: "Admin" },
   });
+  const cashierRole = await prisma.role.findUnique({
+    where: { name: "Cashier" },
+  });
 
   if (!adminRole) {
     throw new Error("Admin role not found.");
   }
+  if (!cashierRole) {
+    throw new Error("Cashier role not found.");
+  }
 
-  await prisma.user.upsert({
-    where: { username: "admin" },
-    update: {},
-    create: {
+  await prisma.user.createMany({
+    data: [{
       roleId: adminRole.id,
       name: "Administrator",
       username: "admin",
@@ -25,6 +29,26 @@ export async function seedUsers() {
       password,
       status: "ACTIVE",
     },
+    {
+      roleId: cashierRole.id,
+      name: "POS Cashier 1",
+      username: "cashier 1",
+      email: "cashier1@mobilepos.com",
+      phone: "0922222222",
+      avatar: "/uploads/avatars/cashier.png",
+      password,
+      status: "ACTIVE",
+    },
+    {
+      roleId: cashierRole.id,
+      name: "POS Cashier 2",
+      username: "cashier 2",
+      email: "cashier2@mobilepos.com",
+      phone: "0933333333",
+      avatar: "/uploads/avatars/cashier.png",
+      password,
+      status: "ACTIVE",
+    }]
   });
 
   console.log("✅ Users seeded");
