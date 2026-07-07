@@ -1,31 +1,32 @@
 import { Request, Response } from "express";
-import { ModelService } from "../services/model.service";
-export const ModelController = {
+import { OrderService } from "../services/order.service"; 
+
+export const OrderController = {
   getAll: async (req: Request, res: Response) => {
-    const data = await ModelService.getAll();
+    const data = await OrderService.getAll();
     res.json(data);
   },
 
   getById: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ModelService.getById(id);
+    const data = await OrderService.getById(id);
     res.json(data);
   },
 
   create: async (req: Request, res: Response) => {
-    const data = await ModelService.create(req.body);
+    const data = await OrderService.create(req.body);
     res.json(data);
   },
 
   update: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ModelService.update(id, req.body);
+    const data = await OrderService.update(id, req.body);
     res.json(data);
   },
 
   delete: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ModelService.delete(id);
+    const data = await OrderService.delete(id);
     res.json(data);
   },
 };

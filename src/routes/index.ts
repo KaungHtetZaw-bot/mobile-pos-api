@@ -1,9 +1,9 @@
 import { Router } from "express";
 import authRoutes from "./auth.routes";
 import brandRoutes from "./brand.routes";
-import modelRoutes from "./model.routes";
-import itemRoutes from "./item.routes";
+import productRoutes from "./product.routes";
 import categoryRoutes from "./category.routes"
+import orderRoutes from "./order.routes"
 import { authenticateToken } from "../middleware/auth.middleware";
 
 const router = Router();
@@ -11,8 +11,8 @@ const router = Router();
 router.use("/", authRoutes); 
 
 router.use("/brands", authenticateToken, brandRoutes);
-router.use("/models", authenticateToken, modelRoutes);
-router.use("/categories", categoryRoutes);
-router.use("/items", itemRoutes);
+router.use("/categories", authenticateToken, categoryRoutes);
+router.use("/products", authenticateToken, productRoutes);
+router.use("/orders", authenticateToken, orderRoutes);
 
 export default router;

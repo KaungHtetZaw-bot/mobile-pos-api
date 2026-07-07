@@ -2,37 +2,37 @@ import prisma from "../prisma/client";
 
 export const CategoryService = {
   getAll: async () => {
-    return prisma.relatedItemCategory.findMany({
+    return prisma.category.findMany({
       include: {
-        items: true,
+        products: true,
       },
     });
   },
 
   getById: async (id: number) => {
-    return prisma.relatedItemCategory.findUnique({
+    return prisma.category.findUnique({
       where: { id },
       include: {
-        items: true,
+        products: true,
       },
     });
   },
 
   create: async (data: any) => {
-    return prisma.relatedItemCategory.create({
+    return prisma.category.create({
       data,
     });
   },
 
   update: async (id: number, data: any) => {
-    return prisma.relatedItemCategory.update({
+    return prisma.category.update({
       where: { id },
       data,
     });
   },
 
   delete: async (id: number) => {
-    return prisma.relatedItemCategory.delete({
+    return prisma.category.delete({
       where: { id },
     });
   },

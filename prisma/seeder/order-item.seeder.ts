@@ -3,22 +3,7 @@ import prisma from "../../src/prisma/client";
 export const seedOrderItems = async () => {
   const orders = await prisma.order.findMany();
 
-  const mobiles = await prisma.mobileModel.findMany();
-
-  const relatedItems = await prisma.relatedItem.findMany();
-
-  const products = [
-    ...mobiles.map((m) => ({
-      type: "mobile",
-      id: m.id,
-      price: m.sellingPrice,
-    })),
-    ...relatedItems.map((r) => ({
-      type: "related",
-      id: r.id,
-      price: r.sellingPrice,
-    })),
-  ];
+  const products = await prisma.product.findMany();
 
   if (!products.length) {
     console.log("No products found");
@@ -40,7 +25,7 @@ export const seedOrderItems = async () => {
 
       const qty = Math.floor(Math.random() * 3) + 1;
 
-      const total = qty * product.price;
+      const total = qty * product.sellingPrice;
 
       orderTotal += total;
 
@@ -48,12 +33,9 @@ export const seedOrderItems = async () => {
         data: {
           orderId: order.id,
           quantity: qty,
-          sellingPrice: product.price,
+          sellingPrice: product.sellingPrice,
           total,
-
-          ...(product.type === "mobile"
-            ? { mobileModelId: product.id }
-            : { relatedItemId: product.id }),
+          productId: product.id
         },
       });
     }

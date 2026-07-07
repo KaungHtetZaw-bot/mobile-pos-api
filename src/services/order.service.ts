@@ -1,38 +1,38 @@
 import prisma from "../prisma/client";
 
-export const ModelService = {
+export const OrderService = {
   getAll: async () => {
-    return prisma.mobileModel.findMany({
+    return prisma.order.findMany({
       include: {
-        brand: true,
+        items: true,
       },
     });
   },
 
   getById: async (id: number) => {
-    return prisma.mobileModel.findUnique({
+    return prisma.order.findUnique({
       where: { id },
       include: {
-        brand: true,
+        items: true,
       },
     });
   },
 
   create: async (data: any) => {
-    return prisma.mobileModel.create({
+    return prisma.order.create({
       data,
     });
   },
 
   update: async (id: number, data: any) => {
-    return prisma.mobileModel.update({
+    return prisma.order.update({
       where: { id },
       data,
     });
   },
 
   delete: async (id: number) => {
-    return prisma.mobileModel.delete({
+    return prisma.order.delete({
       where: { id },
     });
   },

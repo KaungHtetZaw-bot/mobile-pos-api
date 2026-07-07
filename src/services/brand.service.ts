@@ -2,37 +2,37 @@ import prisma from "../prisma/client";
 
 export const BrandService = {
   getAll: async () => {
-    return prisma.mobileBrand.findMany({
+    return prisma.brand.findMany({
       include: {
-        models: true,
+        products: true,
       },
     });
   },
 
   getById: async (id: number) => {
-    return prisma.mobileBrand.findUnique({
+    return prisma.brand.findUnique({
       where: { id },
       include: {
-        models: true,
+        products: true,
       },
     });
   },
 
   create: async (data: any) => {
-    return prisma.mobileBrand.create({
+    return prisma.brand.create({
       data,
     });
   },
 
   update: async (id: number, data: any) => {
-    return prisma.mobileBrand.update({
+    return prisma.brand.update({
       where: { id },
       data,
     });
   },
 
   delete: async (id: number) => {
-    return prisma.mobileBrand.delete({
+    return prisma.brand.delete({
       where: { id },
     });
   },

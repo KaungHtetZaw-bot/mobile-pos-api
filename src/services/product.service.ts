@@ -1,8 +1,8 @@
 import prisma from "../prisma/client";
 
-export const ItemService = {
+export const ProductService = {
   getAll: async () => {
-    return prisma.relatedItem.findMany({
+    return prisma.product.findMany({
       include: {
         category: true,
       },
@@ -10,7 +10,7 @@ export const ItemService = {
   },
 
   getById: async (id: number) => {
-    return prisma.relatedItem.findUnique({
+    return prisma.product.findUnique({
       where: { id },
       include: {
         category: true,
@@ -19,20 +19,20 @@ export const ItemService = {
   },
 
   create: async (data: any) => {
-    return prisma.relatedItem.create({
+    return prisma.product.create({
       data,
     });
   },
 
   update: async (id: number, data: any) => {
-    return prisma.relatedItem.update({
+    return prisma.product.update({
       where: { id },
       data,
     });
   },
 
   delete: async (id: number) => {
-    return prisma.relatedItem.delete({
+    return prisma.product.delete({
       where: { id },
     });
   },

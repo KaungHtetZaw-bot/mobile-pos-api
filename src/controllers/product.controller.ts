@@ -1,31 +1,31 @@
 import { Request, Response } from "express";
-import { ItemService } from "../services/item.service";
-export const ItemController = {
+import { ProductService } from "../services/product.service";
+export const ProductController = {
   getAll: async (req: Request, res: Response) => {
-    const data = await ItemService.getAll();
+    const data = await ProductService.getAll();
     res.json(data);
   },
 
   getById: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ItemService.getById(id);
+    const data = await ProductService.getById(id);
     res.json(data);
   },
 
   create: async (req: Request, res: Response) => {
-    const data = await ItemService.create(req.body);
+    const data = await ProductService.create(req.body);
     res.json(data);
   },
 
   update: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ItemService.update(id, req.body);
+    const data = await ProductService.update(id, req.body);
     res.json(data);
   },
 
   delete: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const data = await ItemService.delete(id);
+    const data = await ProductService.delete(id);
     res.json(data);
   },
 };
