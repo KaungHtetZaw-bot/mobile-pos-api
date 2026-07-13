@@ -1,13 +1,21 @@
 import prisma from "../prisma/client";
 
 export const OrderService = {
-  getAll: async (page = 1, size = 20) => {
+  getAll: async ({page, size}: { page: number; size: number }) => {
+    console.log(page,size)
     const currentPage = Math.max(1, page);
     const skip = ( currentPage - 1 ) * size
     const [ orders, totalCount ] = await prisma.$transaction([
       prisma.order.findMany({
         skip,
         take: size,
+        include: {
+          items: {
+            include: {
+              product: true
+            }
+          }
+        },
         orderBy: {
           id: 'desc',
         },

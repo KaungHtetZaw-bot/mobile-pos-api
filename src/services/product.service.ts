@@ -1,7 +1,7 @@
 import prisma from "../prisma/client";
 
 export const ProductService = {
-  getAll: async (page = 1, size = 20) => {
+  getAll: async ({page = 1, size = 20,}) => {
     const currentPage = Math.max(1, page);
     const skip = ( currentPage - 1 ) * size
     const [ products, totalCount ] = await prisma.$transaction([

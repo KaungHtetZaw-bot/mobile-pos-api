@@ -3,7 +3,9 @@ import { OrderService } from "../services/order.service";
 
 export const OrderController = {
   getAll: async (req: Request, res: Response) => {
-    const data = await OrderService.getAll();
+    const page = req.query.page ? Number(req.query.page) : 1
+    const size = req.query.size ? Number(req.query.size) : 20
+    const data = await OrderService.getAll({page, size});
     res.json(data);
   },
 

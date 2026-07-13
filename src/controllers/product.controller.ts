@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { ProductService } from "../services/product.service";
 export const ProductController = {
   getAll: async (req: Request, res: Response) => {
-    const data = await ProductService.getAll();
+    const page = req.query.page ? Number(req.query.page) : undefined
+    const size = req.query.size ? Number(req.query.size) : undefined
+    const data = await ProductService.getAll({page,size});
     res.json(data);
   },
 
