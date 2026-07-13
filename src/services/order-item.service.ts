@@ -1,17 +1,18 @@
 import prisma from "../prisma/client";
 
 export const OrderItemService = {
-  getAll: async () => {
+  getAll: async (page = 1 , size = 20) => {
     return prisma.orderItem.findMany({
       include: {
         order: true,
       },
+      take: 20
     });
   },
 
   getById: async (id: number) => {
     return prisma.orderItem.findUnique({
-      where: { id },
+      where: { id: id },
       include: {
         order: true,
       },
@@ -34,20 +35,6 @@ export const OrderItemService = {
   delete: async (id: number) => {
     return prisma.orderItem.delete({
       where: { id },
-    });
-  },
-  getTopSelling: async () => {
-    return prisma.orderItem.groupBy({
-        by: ['productId'],
-        _sum: {
-            quantity: true
-        },
-        orderBy: {
-            _sum: {
-                quantity: "desc"
-            }
-        },
-        take: 5
     });
   },
 };

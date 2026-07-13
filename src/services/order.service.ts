@@ -1,12 +1,29 @@
 import prisma from "../prisma/client";
 
 export const OrderService = {
-  getAll: async () => {
-    return prisma.order.findMany({
-      include: {
-        items: true,
+  getAll: async (page = 1, size = 20) => {
+    const currentPage = Math.max(1, page);
+    const skip = ( currentPage - 1 ) * size
+    const [ orders, totalCount ] = await prisma.$transaction([
+      prisma.order.findMany({
+        skip,
+        take: size,
+        orderBy: {
+          id: 'desc',
+        },
+      }),
+      prisma.order.count()
+    ])
+
+    return {
+      data: orders,
+      meta: {
+        totalItems: totalCount,
+        currentPage: currentPage,
+        pageSize: size,
+        totalPages: Math.ceil(totalCount / size),
       },
-    });
+    };
   },
 
   getById: async (id: number) => {

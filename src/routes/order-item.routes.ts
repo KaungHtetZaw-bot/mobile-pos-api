@@ -7,6 +7,5 @@ router.get("/:id", OrderItemController.getById);
 router.post("/", OrderItemController.create);
 router.put("/:id", OrderItemController.update);
 router.delete("/:id", OrderItemController.delete);
-router.get("/top-selling", OrderItemController.getTopSelling);
 
 export default router;

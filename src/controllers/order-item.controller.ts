@@ -28,8 +28,4 @@ export const OrderItemController = {
     const data = await OrderItemService.delete(id);
     res.json(data);
   },
-  getTopSelling: async (req: Request, res: Response) => {
-    const data = await OrderItemService.getTopSelling();
-    res.json(data);
-  },
 };
