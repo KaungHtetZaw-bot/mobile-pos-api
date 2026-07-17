@@ -38,7 +38,7 @@ export const seedOrders = async () => {
     throw new Error("Payment method not found.");
   }
 
-  let invoice = 100001;
+  let invoice = 200001;
 
   for (let i = 0; i < 100; i++) {
     await prisma.order.create({

@@ -101,15 +101,96 @@ export const DashBoardService = {
     },
 
     getLowStock: async ( threshold = 10 ) => {
-    return prisma.product.findMany({
-      where: {
-        stockQty:{
-          lte: Number(threshold),
-        }  
-      },
-      orderBy: {
-        stockQty: 'asc',
-      },
-    });
-  },
+        return prisma.product.findMany({
+        where: {
+            stockQty:{
+            lte: Number(threshold),
+            }  
+        },
+        orderBy: {
+            stockQty: 'asc',
+        },
+        });
+    },
+
+    getHourlyRevenueData:async()=> {
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const orders = await prisma.order.findMany({
+            where: {
+            createdAt: {
+                gte: startOfDay,
+                lte: endOfDay,
+            },
+            },
+            select: {
+            createdAt: true,
+            total: true,
+            items: {
+                select: {
+                quantity: true,
+                },
+            },
+            },
+        });
+
+        return aggregateChartData(orders);
+    }
+}
+
+
+interface OrderData {
+  createdAt: Date;
+  total: number;
+  items: { quantity: number }[];
+}
+
+function aggregateChartData(orders: OrderData[]) {
+    type BucketKey =
+  | "08:00 AM"
+  | "10:00 AM"
+  | "12:00 PM"
+  | "02:00 PM"
+  | "04:00 PM"
+  | "06:00 PM"
+  | "08:00 PM";
+  const chartBuckets:Record<BucketKey, { uv: number; pv: number }> = {
+    '08:00 AM': { uv: 0, pv: 0 },
+    '10:00 AM': { uv: 0, pv: 0 },
+    '12:00 PM': { uv: 0, pv: 0 },
+    '02:00 PM': { uv: 0, pv: 0 },
+    '04:00 PM': { uv: 0, pv: 0 },
+    '06:00 PM': { uv: 0, pv: 0 },
+    '08:00 PM': { uv: 0, pv: 0 },
+  };
+
+  orders.forEach((order) => {
+    const hour = order.createdAt.getHours();
+    let bucketKey: BucketKey | undefined;
+
+    if (hour >= 7 && hour < 9) bucketKey = '08:00 AM';
+    else if (hour >= 9 && hour < 11) bucketKey = '10:00 AM';
+    else if (hour >= 11 && hour < 13) bucketKey = '12:00 PM';
+    else if (hour >= 13 && hour < 15) bucketKey = '02:00 PM';
+    else if (hour >= 15 && hour < 17) bucketKey = '04:00 PM';
+    else if (hour >= 17 && hour < 19) bucketKey = '06:00 PM';
+    else if (hour >= 19 && hour < 21) bucketKey = '08:00 PM';
+    
+    if (!bucketKey) return;
+
+    const totalItemsInOrder = order.items.reduce((sum, item) => sum + item.quantity, 0);
+
+    chartBuckets[bucketKey].uv += totalItemsInOrder; 
+    chartBuckets[bucketKey].pv += order.total;
+  });
+
+  return (Object.keys(chartBuckets) as BucketKey[]).map((name) => ({
+    name,
+    uv: chartBuckets[name].uv,
+    pv: Number(chartBuckets[name].pv.toFixed(2)),
+  }));
 }

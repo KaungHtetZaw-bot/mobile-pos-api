@@ -9,14 +9,14 @@ import { seedOrderItems } from "./seeder/order-item.seeder";
 import prisma from "../src/prisma/client";
 
 async function main() {
-  await seedRoles();
-  await seedUsers();
-  await seedBrands();
-  await seedCategory();
-  await seedProducts();
+  // await seedRoles();
+  // await seedUsers();
+  // await seedBrands();
+  // await seedCategory();
+  // await seedProducts();
   await seedOrders();
   await seedOrderItems();
-  await seedSettings();
+  // await seedSettings();
 
   console.log("✅ Database seeded successfully.");
 }

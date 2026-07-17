@@ -30,6 +30,11 @@ export const DashboardController = {
         message: "Failed to load dashboard data"
       });
     }
+  },
+
+  getChartData: async (req: Request, res:Response) => {
+    const data = DashBoardService.getHourlyRevenueData()
+    return res.json(data)
   }
 
 };

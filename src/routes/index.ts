@@ -20,5 +20,6 @@ router.use("/orders", authenticateToken, orderRoutes);
 router.use("/order-items", authenticateToken, orderItemRoute);
 router.use("/settings", authenticateToken,settingRoutes);
 router.get("/dashboard-init-data", authenticateToken, DashboardController.getInitData);
+router.get("/dashboard-init-chart-data", authenticateToken, DashboardController.getChartData);
 
 export default router;
